@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { calButtonProps } from "./CalProvider";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -52,12 +53,13 @@ export default function Navbar() {
 
         {/* CTA */}
         <div className="hidden md:flex items-center">
-          <a
-            href="#demo"
-            className="px-5 py-2 rounded-md bg-[#B58E31] text-white text-[14px] font-medium hover:bg-[#8B6B1E] transition-colors"
+          <button
+            type="button"
+            {...calButtonProps}
+            className="px-5 py-2 rounded-md bg-[#B58E31] text-white text-[14px] font-medium hover:bg-[#8B6B1E] transition-colors cursor-pointer"
           >
             Book a Demo
-          </a>
+          </button>
         </div>
 
         {/* Mobile hamburger */}
@@ -87,13 +89,14 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <a
-            href="#demo"
-            className="mt-2 px-5 py-2.5 rounded-md bg-[#B58E31] text-white text-[14px] font-medium text-center hover:bg-[#8B6B1E] transition-colors"
+          <button
+            type="button"
+            {...calButtonProps}
+            className="mt-2 px-5 py-2.5 rounded-md bg-[#B58E31] text-white text-[14px] font-medium text-center hover:bg-[#8B6B1E] transition-colors cursor-pointer"
             onClick={() => setMenuOpen(false)}
           >
             Book a Demo
-          </a>
+          </button>
         </div>
       )}
     </nav>

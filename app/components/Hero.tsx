@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { calButtonProps } from "./CalProvider";
 
 const RETELL_ORB_URL =
   process.env.NEXT_PUBLIC_RETELL_ORB_URL ??
@@ -28,12 +29,13 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-3 mt-8">
-              <a
-                href="#demo"
-                className="px-6 py-3 rounded-md bg-[#B58E31] text-white font-medium text-[15px] hover:bg-[#8B6B1E] transition-colors"
+              <button
+                type="button"
+                {...calButtonProps}
+                className="px-6 py-3 rounded-md bg-[#B58E31] text-white font-medium text-[15px] hover:bg-[#8B6B1E] transition-colors cursor-pointer"
               >
                 Book a Demo
-              </a>
+              </button>
               <button
                 onClick={() => setVideoOpen(true)}
                 className="px-6 py-3 rounded-md border border-[#E8E4DC] text-[#2C2C2C] font-medium text-[15px] hover:border-[#B58E31] hover:text-[#B58E31] transition-colors flex items-center gap-2"
