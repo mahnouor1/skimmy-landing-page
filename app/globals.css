@@ -57,6 +57,23 @@ section[id] {
   }
 }
 
+/* Capability tile animations (disabled by the reduced-motion rule below). */
+@keyframes cap-shake { 0%, 70%, 100% { transform: rotate(0) } 75% { transform: rotate(-12deg) } 85% { transform: rotate(12deg) } 95% { transform: rotate(-6deg) } }
+@keyframes cap-fill { 0%, 30% { background: #fff; transform: none } 45%, 85% { background: #E3A72F; transform: scale(1.15) } 100% { background: #fff } }
+@keyframes cap-fade { 0%, 15% { opacity: 0; transform: translateY(6px) } 25%, 85% { opacity: 1; transform: none } 100% { opacity: 0 } }
+@keyframes cap-dash { to { stroke-dashoffset: -24 } }
+@keyframes cap-glow { 0%, 100% { opacity: 0.7 } 50% { opacity: 1 } }
+@keyframes cap-send { 0%, 10% { transform: translateX(0); opacity: 1 } 55% { transform: translateX(60px) scale(0.7); opacity: 0 } 56%, 100% { transform: translateX(0); opacity: 1 } }
+@keyframes cap-node { 0%, 100% { box-shadow: 0 0 0 0 rgba(227,167,47,0) } 50% { box-shadow: 0 0 0 3px rgba(227,167,47,0.35) } }
+.cap-shake { animation: cap-shake 2.4s ease-in-out infinite; }
+.cap-fill { animation: cap-fill 3s ease-in-out infinite; }
+.cap-q { animation: cap-fade 4s ease-out infinite; }
+.cap-a { animation: cap-fade 4s ease-out infinite 0.6s; opacity: 0; }
+.cap-dash { stroke-dasharray: 6 6; animation: cap-dash 1s linear infinite; }
+.cap-glow { animation: cap-glow 1.6s ease-in-out infinite; }
+.cap-send { animation: cap-send 3s ease-in-out infinite; }
+.cap-node { animation: cap-node 2.4s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -67,5 +84,8 @@ section[id] {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  .cap-a {
+    opacity: 1;
   }
 }

@@ -3,6 +3,8 @@ import Hero from "./components/Hero";
 import TalkToSkimmy from "./components/TalkToSkimmy";
 import DemoVideo from "./components/DemoVideo";
 import CallWalkthrough from "./components/CallWalkthrough";
+import Capabilities from "./components/Capabilities";
+import CallLog from "./components/CallLog";
 import Logo from "./components/ui/Logo";
 import { MotionProvider } from "./components/ui/Motion";
 
@@ -15,6 +17,8 @@ export default function Home() {
         <TalkToSkimmy />
         <DemoVideo />
         <CallWalkthrough />
+        <Capabilities />
+        <CallLog />
       </main>
     </MotionProvider>
   );
