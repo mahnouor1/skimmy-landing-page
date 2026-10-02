@@ -25,7 +25,6 @@ export default function OpenGraphImage() {
         }}
       >
         {logo ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={logo.dataUrl}
             alt=""
