@@ -1,72 +1,52 @@
 import type { Config } from "tailwindcss";
 
+// Brand tokens. Loaded by Tailwind v4 through `@config` in app/globals.css.
+// TODO: re-sample cream/gold/ink from public/logo.png once it is added.
 const config: Config = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./app/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
+        cream: {
+          DEFAULT: "#FBF4E4",
+          light: "#FFFDF8",
+          glow: "#F6E3B0",
+          line: "#EADFC6",
+          muted: "#F3EEE3",
+        },
         gold: {
-          DEFAULT: "#B58E31",
-          light: "#C9A84C",
-          dark: "#8B6B1E",
-          muted: "#B58E3120",
+          DEFAULT: "#E3A72F",
+          dark: "#C98A14",
+          // Text-safe gold: >= 3:1 on cream for large headings.
+          deep: "#A36F0C",
         },
         ink: {
-          DEFAULT: "#0F0F0F",
-          soft: "#2C2C2C",
-          muted: "#6B6B6B",
-          faint: "#9E9E9E",
-        },
-        surface: {
-          DEFAULT: "#FFFFFF",
-          subtle: "#F7F6F3",
-          border: "#E8E4DC",
-          dark: "#111111",
+          DEFAULT: "#1B1B1F",
+          body: "#3A3A40",
+          muted: "#6A6A72",
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Playfair Display", "Georgia", "serif"],
+        sans: ["var(--font-jakarta)", "system-ui", "sans-serif"],
       },
-      fontSize: {
-        "display-xl": ["clamp(2.75rem, 5vw, 4.5rem)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
-        "display-lg": ["clamp(2rem, 3.5vw, 3rem)", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
-        "display-md": ["clamp(1.5rem, 2.5vw, 2rem)", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
+      borderRadius: {
+        btn: "12px",
       },
-      animation: {
-        "wave": "wave 2s ease-in-out infinite",
-        "wave-delay-1": "wave 2s ease-in-out infinite 0.2s",
-        "wave-delay-2": "wave 2s ease-in-out infinite 0.4s",
-        "wave-delay-3": "wave 2s ease-in-out infinite 0.6s",
-        "wave-delay-4": "wave 2s ease-in-out infinite 0.8s",
-        "wave-delay-5": "wave 2s ease-in-out infinite 1s",
-        "pulse-soft": "pulse-soft 3s ease-in-out infinite",
-        "fade-up": "fade-up 0.6s ease-out forwards",
+      boxShadow: {
+        soft: "0 1px 2px rgba(27,27,31,0.04), 0 12px 32px -12px rgba(27,27,31,0.12)",
+        lift: "0 2px 4px rgba(27,27,31,0.04), 0 24px 60px -20px rgba(27,27,31,0.22)",
       },
       keyframes: {
-        wave: {
-          "0%, 100%": { transform: "scaleY(0.3)", opacity: "0.4" },
-          "50%": { transform: "scaleY(1)", opacity: "1" },
-        },
-        "pulse-soft": {
-          "0%, 100%": { opacity: "0.6" },
-          "50%": { opacity: "1" },
-        },
-        "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(16px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
-      maxWidth: {
-        "8xl": "88rem",
+      animation: {
+        float: "float 6s ease-in-out infinite",
       },
     },
   },
-  plugins: [],
 };
 
 export default config;

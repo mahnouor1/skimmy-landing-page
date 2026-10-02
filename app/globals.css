@@ -1,9 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
 @import "tailwindcss";
-
-* {
-  box-sizing: border-box;
-}
+@config "../tailwind.config.ts";
 
 html {
   scroll-behavior: smooth;
@@ -12,13 +8,62 @@ html {
 }
 
 body {
-  background: #FFFFFF;
-  color: #0F0F0F;
-  font-family: 'Inter', system-ui, sans-serif;
+  color: #3a3a40;
+  background-color: #fbf4e4;
+  background-image:
+    radial-gradient(60rem 40rem at 85% -5%, rgba(246, 227, 176, 0.75), transparent 60%),
+    radial-gradient(50rem 36rem at -10% 30%, rgba(255, 253, 248, 0.9), transparent 60%),
+    radial-gradient(56rem 40rem at 110% 65%, rgba(246, 227, 176, 0.45), transparent 60%),
+    radial-gradient(50rem 36rem at 0% 95%, rgba(255, 253, 248, 0.8), transparent 60%);
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Section anchors land below the sticky navbar. */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-btn px-6 py-3 text-[15px] font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-dark cursor-pointer select-none;
+}
+@utility btn-primary {
+  @apply btn bg-ink text-white shadow-soft hover:-translate-y-0.5 hover:bg-black hover:shadow-lift;
+}
+@utility btn-secondary {
+  @apply btn border-[1.5px] border-gold bg-cream-light/60 text-ink hover:bg-cream-glow/50;
+}
+@utility gold-word {
+  @apply bg-gradient-to-br from-gold-dark to-gold-deep bg-clip-text text-transparent;
+}
+@utility eyebrow {
+  @apply text-[13px] font-bold uppercase tracking-[0.14em] text-gold-deep;
+}
+@utility section-title {
+  @apply text-[clamp(1.9rem,4.2vw,3rem)] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink;
+}
+/* Thin gold rule beside text blocks. */
+@utility gold-rule {
+  @apply relative pl-5 before:absolute before:left-0 before:top-1 before:bottom-1 before:w-px before:bg-gradient-to-b before:from-gold before:via-gold/60 before:to-transparent;
+}
+@utility card {
+  @apply rounded-2xl border border-cream-line bg-cream-light/80 shadow-soft backdrop-blur-sm;
+}
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

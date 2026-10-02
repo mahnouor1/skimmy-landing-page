@@ -1,104 +1,74 @@
 "use client";
-import { useState, useEffect } from "react";
-import { calButtonProps } from "./CalProvider";
 
-export default function Navbar() {
+import { useEffect, useState } from "react";
+import { NAV_LINKS } from "../lib/site";
+import BookDemoButton from "./ui/BookDemoButton";
+
+/** Sticky top bar. `logo` is rendered on the server and passed in. */
+export default function Navbar({ logo }: { logo: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navLinks = [
-    { label: "Product", href: "#capabilities" },
-    { label: "How it works", href: "#how-it-works" },
-    { label: "Integrations", href: "#integrations" },
-    { label: "Use Cases", href: "#use-cases" },
-    { label: "Demo", href: "#demo" },
-  ];
-
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur-sm border-b border-[#E8E4DC]" : "bg-transparent"
+    <header
+      className={`sticky top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300 ${
+        scrolled || open
+          ? "border-b border-cream-line/80 bg-cream-light/85 shadow-[0_8px_30px_-18px_rgba(27,27,31,0.25)] backdrop-blur-md"
+          : "border-b border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-7 h-7 rounded-md bg-[#B58E31] flex items-center justify-center">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 12V7a5 5 0 0 1 10 0v5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-              <circle cx="8" cy="12.5" r="1.5" fill="white"/>
-            </svg>
-          </div>
-          <span className="font-semibold text-[15px] tracking-tight text-[#0F0F0F]">Skimmy</span>
+      <nav aria-label="Main" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+        <a href="#top" className="flex items-center rounded-md focus-visible:outline-2 focus-visible:outline-gold-dark" aria-label="Skimmy home">
+          {logo}
         </a>
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-[14px] text-[#6B6B6B] hover:text-[#0F0F0F] transition-colors font-medium"
-            >
-              {link.label}
-            </a>
+        <ul className="hidden items-center gap-8 md:flex">
+          {NAV_LINKS.map((l) => (
+            <li key={l.href}>
+              <a href={l.href} className="text-[14px] font-semibold text-ink-body transition-colors hover:text-ink">
+                {l.label}
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        {/* CTA */}
-        <div className="hidden md:flex items-center">
+        <div className="flex items-center gap-2">
+          <BookDemoButton className="btn-primary !px-4 !py-2.5 !text-[14px]" />
           <button
             type="button"
-            {...calButtonProps}
-            className="px-5 py-2 rounded-md bg-[#B58E31] text-white text-[14px] font-medium hover:bg-[#8B6B1E] transition-colors cursor-pointer"
+            className="grid h-10 w-10 place-items-center rounded-btn text-ink md:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((o) => !o)}
           >
-            Book a Demo
+            <span className="relative block h-3 w-5" aria-hidden>
+              <span className={`absolute left-0 h-[1.5px] w-5 bg-current transition-transform ${open ? "top-1.5 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 top-1.5 h-[1.5px] w-5 bg-current transition-opacity ${open ? "opacity-0" : ""}`} />
+              <span className={`absolute left-0 h-[1.5px] w-5 bg-current transition-transform ${open ? "top-1.5 -rotate-45" : "top-3"}`} />
+            </span>
           </button>
         </div>
+      </nav>
 
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden p-2 text-[#0F0F0F]"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <div className="w-5 flex flex-col gap-1">
-            <span className={`block h-px bg-current transition-all ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`} />
-            <span className={`block h-px bg-current transition-all ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-px bg-current transition-all ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`} />
-          </div>
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-white border-b border-[#E8E4DC] px-6 py-4 flex flex-col gap-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-[15px] text-[#2C2C2C] font-medium"
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </a>
+      {open && (
+        <ul id="mobile-menu" className="flex flex-col gap-1 border-t border-cream-line px-4 pb-4 pt-2 md:hidden">
+          {NAV_LINKS.map((l) => (
+            <li key={l.href}>
+              <a href={l.href} onClick={() => setOpen(false)} className="block rounded-lg px-2 py-3 text-[16px] font-semibold text-ink">
+                {l.label}
+              </a>
+            </li>
           ))}
-          <button
-            type="button"
-            {...calButtonProps}
-            className="mt-2 px-5 py-2.5 rounded-md bg-[#B58E31] text-white text-[14px] font-medium text-center hover:bg-[#8B6B1E] transition-colors cursor-pointer"
-            onClick={() => setMenuOpen(false)}
-          >
-            Book a Demo
-          </button>
-        </div>
+        </ul>
       )}
-    </nav>
+    </header>
   );
 }
