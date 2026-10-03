@@ -6,15 +6,15 @@ export default function Hero() {
     <section id="top" aria-labelledby="hero-title" className="relative px-4 pb-16 pt-10 sm:px-6 sm:pt-16 lg:pb-24">
       <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
         <div className="gold-rule">
-          <p className="eyebrow mb-5">AI receptionist · Australian business</p>
+          <p className="eyebrow mb-5">AI voice agent · Australian business</p>
           <h1
             id="hero-title"
             className="text-[clamp(2.4rem,7vw,4.4rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-ink"
           >
-            Your receptionist that <span className="gold-word">never</span> misses a call.
+            AI voice agents that answer <span className="gold-word whitespace-nowrap">every call</span>.
           </h1>
           <p className="mt-6 max-w-md text-[18px] leading-relaxed text-ink-body">
-            Skimmy answers calls 24/7, books appointments and logs every call, set up for you by our team.
+            Skimmy answers, books, qualifies and routes your calls, 24/7.
           </p>
           <div className="mt-8">
             <BookDemoButton />
@@ -27,7 +27,7 @@ export default function Hero() {
   );
 }
 
-/** Illustrative product mock: a live call with the outcomes it triggers. Pure HTML/CSS. */
+/** Product mock: a live call with the outcomes it triggers. Pure HTML/CSS. */
 function HeroMock() {
   return (
     <div className="relative mx-auto w-full max-w-[460px] px-2 pb-10 pt-8 sm:px-6" aria-hidden>

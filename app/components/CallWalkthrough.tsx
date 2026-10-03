@@ -220,7 +220,6 @@ export default function CallWalkthrough() {
           </div>
         </div>
 
-        <p className="mt-4 text-center text-[12px] text-ink-muted">{wt.note}</p>
       </div>
     </section>
   );

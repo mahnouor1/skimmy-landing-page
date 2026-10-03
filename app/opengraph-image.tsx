@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getLogo } from "./lib/logo";
 
-export const alt = "Skimmy, the AI receptionist that answers every call";
+export const alt = "Skimmy, the AI voice agent that answers every call";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -35,7 +35,7 @@ export default function OpenGraphImage() {
           <div style={{ fontSize: 120, fontWeight: 800, color: "#1B1B1F", letterSpacing: -4 }}>Skimmy</div>
         )}
         <div style={{ display: "flex", fontSize: 44, fontWeight: 700, color: "#1B1B1F" }}>
-          Your AI receptionist.&nbsp;<span style={{ color: "#B57A0E" }}>Every call</span>&nbsp;answered.
+          Your AI voice agent.&nbsp;<span style={{ color: "#B57A0E" }}>Every call</span>&nbsp;answered.
         </div>
       </div>
     ),

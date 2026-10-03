@@ -6,7 +6,7 @@ import SectionHeading from "./ui/SectionHeading";
 
 // Questions kept from the previous site. Answers shortened to two sentences max.
 const FAQS = [
-  { q: "What is Skimmy?", a: "Skimmy is an AI receptionist that answers your inbound calls 24/7. Our team sets it up for your business." },
+  { q: "What is Skimmy?", a: "Skimmy is an AI voice agent that answers your inbound calls 24/7. Our team sets it up for your business." },
   { q: "Can Skimmy transfer calls to a human?", a: "Yes. When a caller needs a person, Skimmy transfers them to the right team member with the details already collected." },
   { q: "Can Skimmy book appointments?", a: "Yes. It checks your availability, books the time and emails the caller a confirmation." },
   { q: "Can it answer questions about my business?", a: "Yes. We load your services, hours, policies and FAQs so Skimmy answers accurately." },

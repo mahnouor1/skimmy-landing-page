@@ -1,5 +1,5 @@
 // Scripted example calls for the walkthrough section.
-// Phone numbers use ACMA's reserved fictional ranges (0491 570 xxx, 5550 xxxx).
+// Phone numbers use ACMA's reserved example ranges (0491 570 xxx, 5550 xxxx).
 
 export type LogStatus = "Booked" | "Transferred" | "Resolved" | "Missed";
 
@@ -30,7 +30,6 @@ export type Walkthrough = {
   /** Shorter tab label for small screens. */
   short: string;
   business: string;
-  note: string;
   priorLog: LogRow[];
   lines: Line[];
 };
@@ -41,7 +40,6 @@ export const WALKTHROUGHS: Walkthrough[] = [
     tab: "Healthcare clinic",
     short: "Clinic",
     business: "Greenlife Clinic",
-    note: "Illustrative conversation. Greenlife Clinic is a fictional example.",
     priorLog: [
       { name: "Tom Nguyen", phone: "0491 570 156", status: "Resolved", time: "9:12 AM" },
       { name: "Mia Clarke", phone: "(03) 5550 1234", status: "Transferred", time: "8:47 AM" },
@@ -99,7 +97,6 @@ export const WALKTHROUGHS: Walkthrough[] = [
     tab: "Real estate agency",
     short: "Real estate",
     business: "Harbourview Realty",
-    note: "Illustrative conversation. Harbourview Realty is a fictional example.",
     priorLog: [
       { name: "Liam Walsh", phone: "0491 570 157", status: "Booked", time: "10:03 AM" },
       { name: "Unknown caller", phone: "(02) 5550 7781", status: "Missed", time: "9:40 AM" },
@@ -159,7 +156,6 @@ export const WALKTHROUGHS: Walkthrough[] = [
     tab: "After-hours call",
     short: "After hours",
     business: "Greenlife Clinic",
-    note: "Illustrative conversation. Greenlife Clinic is a fictional example.",
     priorLog: [
       { name: "Ella Morris", phone: "0491 570 313", status: "Resolved", time: "7:58 PM" },
       { name: "Unknown caller", phone: "(07) 5550 4410", status: "Missed", time: "6:21 PM" },

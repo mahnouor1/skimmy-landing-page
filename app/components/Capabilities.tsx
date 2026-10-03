@@ -14,7 +14,7 @@ export default function Capabilities() {
   return (
     <section id="features" aria-labelledby="features-title" className="px-4 py-20 sm:px-6 lg:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="features-title" eyebrow="What it does" before="One receptionist," gold="six" after="jobs." />
+        <SectionHeading id="features-title" eyebrow="What it does" before="One AI voice agent," gold="six" after="jobs." />
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {TILES.map((t, i) => (
             <li key={t.title} className={t.span}>

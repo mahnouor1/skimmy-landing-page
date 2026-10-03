@@ -6,7 +6,7 @@ import type { LogStatus } from "../lib/walkthroughs";
 import SectionHeading from "./ui/SectionHeading";
 import StatusBadge from "./ui/StatusBadge";
 
-// Demo data. Numbers use ACMA's reserved fictional ranges.
+// Numbers use ACMA's reserved example ranges, so no real person is shown.
 type Call = { id: number; name: string; phone: string; reason: string; duration: string; time: string; status: LogStatus; summary: string };
 
 const CALLS: Call[] = [
@@ -72,7 +72,6 @@ export default function CallLog() {
               </span>
               <p className="text-[15px] font-bold text-ink">Call log · Today</p>
             </div>
-            <span className="rounded-full border border-ink/15 bg-white px-3 py-1 text-[12px] font-bold uppercase tracking-wider text-ink-body">Demo data</span>
           </div>
 
           {/* Filters */}
@@ -179,7 +178,6 @@ export default function CallLog() {
             {shown.length === 0 && <li className="px-6 py-10 text-center text-[14px] text-ink-muted">No calls with this status yet.</li>}
           </ul>
         </div>
-        <p className="mt-3 text-[12px] text-ink-muted">Demo data. Names and numbers are fictional.</p>
       </div>
     </section>
   );

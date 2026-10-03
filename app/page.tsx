@@ -9,6 +9,7 @@ import HowItWorks from "./components/HowItWorks";
 import Integrations from "./components/Integrations";
 import Industries from "./components/Industries";
 import FAQ from "./components/FAQ";
+import Team from "./components/Team";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
 import Logo from "./components/ui/Logo";
@@ -29,6 +30,7 @@ export default function Home() {
         <Integrations />
         <Industries />
         <FAQ />
+        <Team />
         <FinalCTA />
       </main>
       <Footer />

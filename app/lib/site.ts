@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Skimmy",
   url: "https://skimmy.ai",
-  title: "Skimmy | AI receptionist that answers every call",
+  title: "Skimmy | AI voice agents that answer every call",
   description:
     "Skimmy answers your business calls 24/7, books appointments and logs every call. Done-for-you setup for clinics, real estate agencies and service businesses.",
   email: "hello@skimmy.ai",
@@ -17,4 +17,5 @@ export const NAV_LINKS = [
   { label: "How it works", href: "#how-it-works" },
   { label: "Industries", href: "#industries" },
   { label: "FAQ", href: "#faq" },
+  { label: "Team", href: "#team" },
 ];
