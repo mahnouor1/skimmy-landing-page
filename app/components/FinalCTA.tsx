@@ -21,9 +21,6 @@ export default function FinalCTA() {
           <p className="relative mx-auto mt-5 max-w-md text-[17px] text-white/75">See Skimmy on your own calls. We&apos;ll walk you through it.</p>
           <div className="relative mt-9 flex flex-wrap justify-center gap-3">
             <BookDemoButton className="btn bg-gold text-ink shadow-soft hover:-translate-y-0.5 hover:bg-[#EDB548]" />
-            <a href="#talk" className="btn border-[1.5px] border-white/30 text-white hover:border-gold hover:text-gold">
-              Talk to Skimmy
-            </a>
           </div>
         </div>
       </Reveal>

@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import TalkToSkimmy from "./components/TalkToSkimmy";
+import ProofStrip from "./components/ProofStrip";
 import DemoVideo from "./components/DemoVideo";
 import CallWalkthrough from "./components/CallWalkthrough";
 import Capabilities from "./components/Capabilities";
@@ -20,8 +20,8 @@ export default function Home() {
       <Navbar logo={<Logo height={30} />} />
       <main>
         <Hero />
-        <TalkToSkimmy />
         <DemoVideo />
+        <ProofStrip />
         <CallWalkthrough />
         <Capabilities />
         <CallLog />

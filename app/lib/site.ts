@@ -13,7 +13,7 @@ export const CAL_LINK = "mahnoor-umar-plzhcx/skimmy-demo";
 export const BOOKING_URL = `https://cal.com/${CAL_LINK}`;
 
 export const NAV_LINKS = [
-  { label: "Try it", href: "#talk" },
+  { label: "Demo", href: "#demo" },
   { label: "How it works", href: "#how-it-works" },
   { label: "Industries", href: "#industries" },
   { label: "FAQ", href: "#faq" },
