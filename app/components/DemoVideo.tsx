@@ -8,13 +8,19 @@ function fmt(s: number) {
   return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 }
 
+type NavigatorWithActivation = Navigator & { userActivation?: { hasBeenActive: boolean } };
+
 export default function DemoVideo() {
   const stageRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const userMuted = useRef(false); // the viewer chose mute; don't override that
+  const interacted = useRef(false); // visitor has clicked, tapped or pressed a key on the page
+  const userMuted = useRef(false); // visitor chose mute; never auto-unmute again this visit
+  const soundStarted = useRef(false); // sound has been on at least once
+  const inView = useRef(false);
   const [mounted, setMounted] = useState(false); // <video> only exists once near view
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [soundPrompt, setSoundPrompt] = useState(false); // big "Tap for sound" overlay
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [ratio, setRatio] = useState(1280 / 658);
@@ -25,29 +31,56 @@ export default function DemoVideo() {
   const rotateX = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [16, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [0.9, 1]);
 
-  /** Plays with sound. Browsers block that until the visitor has interacted with the page,
-   *  so fall back to muted and switch sound on at their first click, tap or key press. */
-  const playWithSound = async () => {
+  // Browsers only allow sound after a real activation (click, tap release, key press).
+  const canUnmute = () => (navigator as NavigatorWithActivation).userActivation?.hasBeenActive ?? interacted.current;
+
+  /** Muted playback, offering the "Tap for sound" overlay unless the visitor chose mute. */
+  const playMuted = async () => {
     const v = videoRef.current;
     if (!v) return;
-    v.muted = userMuted.current;
-    setMuted(v.muted);
+    v.muted = true;
+    setMuted(true);
+    setSoundPrompt(!userMuted.current);
+    await v.play().catch(() => {});
+  };
+
+  /** Plays with sound; falls back to muted playback if the browser still refuses. */
+  const playWithSound = async (fromStart: boolean) => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (fromStart) v.currentTime = 0;
+    v.muted = false;
     try {
       await v.play();
+      soundStarted.current = true;
+      setMuted(false);
+      setSoundPrompt(false);
     } catch {
-      v.muted = true;
-      setMuted(true);
-      await v.play().catch(() => {});
-      const unmute = () => {
-        if (!userMuted.current && videoRef.current) {
-          videoRef.current.muted = false;
-          setMuted(false);
-        }
-      };
-      window.addEventListener("pointerdown", unmute, { once: true, capture: true });
-      window.addEventListener("keydown", unmute, { once: true, capture: true });
+      await playMuted();
     }
   };
+
+  const onEnterView = () => {
+    if (userMuted.current) return void playMuted();
+    if (soundStarted.current) return void playWithSound(false); // resume where it was
+    if (interacted.current && canUnmute()) return void playWithSound(true);
+    void playMuted();
+  };
+
+  // Record the first interaction; unmute automatically if the video is playing muted in view.
+  useEffect(() => {
+    const onInteract = () => {
+      interacted.current = true;
+      const v = videoRef.current;
+      if (!v || !inView.current || userMuted.current || !v.muted || v.paused || !canUnmute()) return;
+      void playWithSound(false);
+    };
+    const events = ["pointerdown", "keydown", "touchstart", "touchend", "click"] as const;
+    events.forEach((e) => window.addEventListener(e, onInteract, { capture: true, passive: true }));
+    return () => events.forEach((e) => window.removeEventListener(e, onInteract, { capture: true }));
+    // Handlers only read refs and state setters, so registering once is safe.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const el = stageRef.current;
@@ -55,11 +88,13 @@ export default function DemoVideo() {
     const near = new IntersectionObserver(([e]) => e.isIntersecting && (setMounted(true), near.disconnect()), {
       rootMargin: "600px 0px",
     });
+    // Play in view, pause out of view, resume on return.
     const visible = new IntersectionObserver(
       ([e]) => {
+        inView.current = e.isIntersecting;
         const v = videoRef.current;
         if (!v) return;
-        if (e.isIntersecting) void playWithSound();
+        if (e.isIntersecting) onEnterView();
         else v.pause();
       },
       { threshold: 0.5 },
@@ -70,6 +105,7 @@ export default function DemoVideo() {
       near.disconnect();
       visible.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted]);
 
   const togglePlay = () => {
@@ -82,9 +118,14 @@ export default function DemoVideo() {
   const toggleMute = () => {
     const v = videoRef.current;
     if (!v) return;
-    v.muted = !v.muted;
-    userMuted.current = v.muted;
-    setMuted(v.muted);
+    if (v.muted) {
+      userMuted.current = false;
+      void playWithSound(false);
+    } else {
+      userMuted.current = true;
+      v.muted = true;
+      setMuted(true);
+    }
   };
 
   const seek = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -151,6 +192,25 @@ export default function DemoVideo() {
                   </video>
                 )}
 
+                {/* Muted autoplay: the whole video becomes a "Tap for sound" button */}
+                {soundPrompt && playing && (
+                  <button
+                    type="button"
+                    onClick={() => void playWithSound(true)}
+                    aria-label="Tap for sound. Restarts the demo with sound."
+                    className="absolute inset-0 z-10 grid cursor-pointer place-items-center bg-black/25 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-gold"
+                  >
+                    <span className="relative flex items-center gap-3 rounded-full bg-white px-6 py-3.5 text-[16px] font-bold text-ink shadow-lift transition-transform hover:scale-105 sm:px-8 sm:py-4 sm:text-[19px]">
+                      <span aria-hidden className="absolute inset-0 animate-ping rounded-full bg-white/50 [animation-duration:2s]" />
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden className="relative text-gold-dark">
+                        <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor" />
+                        <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                      <span className="relative">Tap for sound</span>
+                    </span>
+                  </button>
+                )}
+
                 {/* Big play button when paused */}
                 {!playing && (
                   <button
@@ -200,16 +260,18 @@ export default function DemoVideo() {
                   <span className="text-[12px] tabular-nums text-white/80">
                     {fmt(time)} / {fmt(duration)}
                   </span>
-                  <button type="button" onClick={toggleMute} aria-label={muted ? "Unmute" : "Mute"} className="text-white/90 hover:text-gold">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-                      <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor" />
-                      {muted ? (
-                        <path d="m16 9 5 6m0-6-5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                      ) : (
-                        <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                      )}
-                    </svg>
-                  </button>
+                  {!soundPrompt && (
+                    <button type="button" onClick={toggleMute} aria-label={muted ? "Unmute" : "Mute"} className="text-white/90 hover:text-gold">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                        <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor" />
+                        {muted ? (
+                          <path d="m16 9 5 6m0-6-5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        ) : (
+                          <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        )}
+                      </svg>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
