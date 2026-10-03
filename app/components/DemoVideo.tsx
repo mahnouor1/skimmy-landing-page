@@ -20,7 +20,6 @@ export default function DemoVideo() {
   const [mounted, setMounted] = useState(false); // <video> only exists once near view
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
-  const [soundPrompt, setSoundPrompt] = useState(false); // big "Tap for sound" overlay
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [ratio, setRatio] = useState(1280 / 658);
@@ -34,13 +33,12 @@ export default function DemoVideo() {
   // Browsers only allow sound after a real activation (click, tap release, key press).
   const canUnmute = () => (navigator as NavigatorWithActivation).userActivation?.hasBeenActive ?? interacted.current;
 
-  /** Muted playback, offering the "Tap for sound" overlay unless the visitor chose mute. */
+  /** Muted playback until the browser allows sound (first click, tap or key press). */
   const playMuted = async () => {
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
     setMuted(true);
-    setSoundPrompt(!userMuted.current);
     await v.play().catch(() => {});
   };
 
@@ -54,7 +52,6 @@ export default function DemoVideo() {
       await v.play();
       soundStarted.current = true;
       setMuted(false);
-      setSoundPrompt(false);
     } catch {
       await playMuted();
     }
@@ -192,25 +189,6 @@ export default function DemoVideo() {
                   </video>
                 )}
 
-                {/* Muted autoplay: the whole video becomes a "Tap for sound" button */}
-                {soundPrompt && playing && (
-                  <button
-                    type="button"
-                    onClick={() => void playWithSound(true)}
-                    aria-label="Tap for sound. Restarts the demo with sound."
-                    className="absolute inset-0 z-10 grid cursor-pointer place-items-center bg-black/25 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-gold"
-                  >
-                    <span className="relative flex items-center gap-3 rounded-full bg-white px-6 py-3.5 text-[16px] font-bold text-ink shadow-lift transition-transform hover:scale-105 sm:px-8 sm:py-4 sm:text-[19px]">
-                      <span aria-hidden className="absolute inset-0 animate-ping rounded-full bg-white/50 [animation-duration:2s]" />
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden className="relative text-gold-dark">
-                        <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor" />
-                        <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                      </svg>
-                      <span className="relative">Tap for sound</span>
-                    </span>
-                  </button>
-                )}
-
                 {/* Big play button when paused */}
                 {!playing && (
                   <button
@@ -260,18 +238,16 @@ export default function DemoVideo() {
                   <span className="text-[12px] tabular-nums text-white/80">
                     {fmt(time)} / {fmt(duration)}
                   </span>
-                  {!soundPrompt && (
-                    <button type="button" onClick={toggleMute} aria-label={muted ? "Unmute" : "Mute"} className="text-white/90 hover:text-gold">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-                        <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor" />
-                        {muted ? (
-                          <path d="m16 9 5 6m0-6-5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                        ) : (
-                          <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                        )}
-                      </svg>
-                    </button>
-                  )}
+                  <button type="button" onClick={toggleMute} aria-label={muted ? "Unmute" : "Mute"} className="text-white/90 hover:text-gold">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                      <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor" />
+                      {muted ? (
+                        <path d="m16 9 5 6m0-6-5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      ) : (
+                        <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      )}
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
