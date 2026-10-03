@@ -74,6 +74,10 @@ section[id] {
 .cap-send { animation: cap-send 3s ease-in-out infinite; }
 .cap-node { animation: cap-node 2.4s ease-in-out infinite; }
 
+/* Integrations hub: gold pulse travelling out along each line. */
+@keyframes hub-pulse { 0% { stroke-dashoffset: 46 } 60%, 100% { stroke-dashoffset: -46 } }
+.hub-pulse { stroke-dasharray: 8 46; animation: hub-pulse 2.4s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

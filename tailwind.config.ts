@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 // Brand tokens. Loaded by Tailwind v4 through `@config` in app/globals.css.
-// TODO: re-sample cream/gold/ink from public/logo.png once it is added.
+// gold.logo / ink.logo are sampled from public/logo.jpg.
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}"],
   theme: {
@@ -19,11 +19,13 @@ const config: Config = {
           dark: "#C98A14",
           // Text-safe gold: >= 3:1 on cream for large headings.
           deep: "#A36F0C",
+          logo: "#B58E31",
         },
         ink: {
           DEFAULT: "#1B1B1F",
           body: "#3A3A40",
           muted: "#6A6A72",
+          logo: "#2B2B2B",
         },
       },
       fontFamily: {

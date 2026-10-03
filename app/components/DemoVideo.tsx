@@ -100,7 +100,6 @@ export default function DemoVideo() {
                     }}
                     onEnded={() => setWithSound(true)}
                   >
-                    <source src="/demo.webm" type="video/webm" />
                     <source src="/demo.mp4" type="video/mp4" onError={() => setMissing(true)} />
                   </video>
                 )

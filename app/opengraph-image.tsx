@@ -7,8 +7,8 @@ export const contentType = "image/png";
 
 /** Social card built from public/logo.png at build time. */
 export default function OpenGraphImage() {
-  const logo = getLogo();
-  const logoHeight = 140;
+  const logo = getLogo("logo-full.png");
+  const logoHeight = 200;
 
   return new ImageResponse(
     (
