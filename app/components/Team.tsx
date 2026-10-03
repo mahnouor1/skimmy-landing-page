@@ -1,14 +1,4 @@
-import Image from "next/image";
 import { Reveal } from "./ui/Motion";
-
-// Cropped from public/team.jpg, left to right. Fill in name and role for each person;
-// the text under a photo only shows once it is filled in.
-const MEMBERS = [
-  { photo: "/team/member-1.jpg", name: "", role: "" },
-  { photo: "/team/member-2.jpg", name: "", role: "" },
-  { photo: "/team/member-3.jpg", name: "", role: "" },
-  { photo: "/team/member-4.jpg", name: "", role: "" },
-];
 
 export default function Team() {
   return (
@@ -21,28 +11,20 @@ export default function Team() {
         <p className="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-ink-body">
           Our team brings experience from global AI clients, with real projects shipped in Australia, the US and New Zealand.
         </p>
+      </Reveal>
 
-        <ul className="mt-8 flex justify-center gap-x-4 sm:gap-x-8">
-          {MEMBERS.map((m, i) => (
-            <li key={m.photo} className="group flex w-16 flex-col items-center text-center sm:w-20">
-              <span className="relative block rounded-full transition-transform duration-300 group-hover:-translate-y-1">
-                <span
-                  aria-hidden
-                  className="absolute -inset-1 rounded-full bg-gold/0 blur-md transition-colors duration-300 group-hover:bg-gold/40"
-                />
-                <Image
-                  src={m.photo}
-                  alt={m.name || `Skimmy team member ${i + 1}`}
-                  width={64}
-                  height={64}
-                  className="relative h-16 w-16 rounded-full object-cover shadow-soft ring-[1.5px] ring-white transition-all duration-300 group-hover:scale-105 group-hover:ring-gold"
-                />
-              </span>
-              {m.name && <span className="mt-2 text-[13px] font-bold leading-tight text-ink">{m.name}</span>}
-              {m.role && <span className="mt-0.5 text-[12px] leading-tight text-ink-muted">{m.role}</span>}
-            </li>
-          ))}
-        </ul>
+      <Reveal delay={0.1} className="mx-auto mt-8 w-full max-w-[560px]">
+        {/* Original uploaded file, served as-is (no optimisation or edits). */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/team.jpg"
+          alt="The Skimmy team"
+          width={3766}
+          height={3024}
+          loading="lazy"
+          decoding="async"
+          className="block h-auto w-full rounded-2xl border-[3px] border-white object-contain shadow-soft transition-[transform,box-shadow] duration-[250ms] ease-[ease] hover:-translate-y-1 hover:shadow-lift"
+        />
       </Reveal>
     </section>
   );
