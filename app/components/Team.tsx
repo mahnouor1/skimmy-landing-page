@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Reveal } from "./ui/Motion";
 
 export default function Team() {
@@ -14,15 +15,14 @@ export default function Team() {
       </Reveal>
 
       <Reveal delay={0.1} className="mx-auto mt-8 w-full max-w-[560px]">
-        {/* Original uploaded file, served as-is (no optimisation or edits). */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        {/* Original team photo, full frame; Next.js serves a right-sized copy per screen. */}
+        <Image
           src="/team.jpg"
           alt="The Skimmy team"
           width={3766}
           height={3024}
-          loading="lazy"
-          decoding="async"
+          quality={90}
+          sizes="(min-width: 600px) 560px, calc(100vw - 32px)"
           className="block h-auto w-full rounded-2xl border-[3px] border-white object-contain shadow-soft transition-[transform,box-shadow] duration-[250ms] ease-[ease] hover:-translate-y-1 hover:shadow-lift"
         />
       </Reveal>
