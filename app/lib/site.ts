@@ -3,7 +3,7 @@ export const SITE = {
   url: "https://skimmy.ai",
   title: "Skimmy | AI receptionist that answers every call",
   description:
-    "Skimmy answers your business calls 24/7, books appointments and logs every call. Done-for-you setup for Australian clinics and real estate agencies.",
+    "Skimmy answers your business calls 24/7, books appointments and logs every call. Done-for-you setup for clinics, real estate agencies and service businesses.",
   email: "hello@skimmy.ai",
 };
 
