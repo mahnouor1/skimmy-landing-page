@@ -17,5 +17,4 @@ export const NAV_LINKS = [
   { label: "How it works", href: "#how-it-works" },
   { label: "Industries", href: "#industries" },
   { label: "FAQ", href: "#faq" },
-  { label: "Team", href: "#team" },
 ];
